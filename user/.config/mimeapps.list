@@ -1,0 +1,20 @@
+[Default Applications]
+application/pdf=zathura.desktop
+application/octet-stream=mpv.desktop
+audio/opus=mpv.desktop
+video/webm=mpv.desktop
+video/mpeg=mpv.desktop
+video/mp2t=mpv.desktop
+video/mp2v=mpv.desktop
+application/x-mpeg=mpv.desktop
+video/mp2t=mpv.desktop
+video/mts=mpv.desktop
+image/bmp=nsxiv.desktop
+image/gif=nsxiv.desktop
+image/jpeg=nsxiv.desktop
+image/jpg=nsxiv.desktop
+image/png=nsxiv.desktop
+image/tiff=nsxiv.desktop
+image/x-png=nsxiv.desktop
+image/svg+xml=nsxiv.desktop
+image/svg+xml-compressed=nsxiv.desktop

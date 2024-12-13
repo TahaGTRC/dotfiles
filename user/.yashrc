@@ -1,0 +1,79 @@
+#!/usr/bin/env sh
+export LC_ALL=en_US.UTF-8
+
+ . "$HOME/.scripts/locations.sh"
+ . "$HOME/.scripts/functions.sh"
+ . "$HOME/.scripts/aliases.sh"
+
+setxkbmap fr
+
+hostname=$(uname -n)
+
+<<C
+I linked /usr/local/bin/vi to /bin/vis
+because vi is hard-coded in Yash's
+command-line editor function (cmd_vi_edit_and_accept)
+C
+
+# Determine hostname color based on connection type and environment
+if [ -n "${SSH_CONNECTION-}" ]; then
+  hostcolor='\fw.'     # yellow hostname for SSH remote
+else
+  hostcolor='\fy.'     # green hostname for local
+fi
+
+# Determine user color based on user privileges
+if [ "$(id -u)" -eq 0 ]; then
+  usercolor='\fr.'     # red username for root
+else
+  usercolor='\fg.' # same username color as hostname for non-root user
+fi
+
+# Function to retrieve the current git branch
+git_branch() {
+    branch=$(git -C "$PWD" rev-parse --abbrev-ref HEAD 2>/dev/null)
+    if [ -n "$branch" ]; then
+        echo "($branch)"
+    fi
+}
+
+# Set the PS1 prompt with colors, username, hostname, current directory, and git branch
+update_prompt() {
+  usr="$(stylize -f 154 -p "$(whoami)")"
+  hst="$(stylize -f 214 -p "$(uname -n) ")"
+  place="$(stylize -f 222 -p "$(echo "$PWD" | sed "s|$HOME|~|") ")"
+  git="$(stylize -f 14 -s bold -p "$(git_branch)")"
+  sign="$(stylize -f 2 -p "$ ")"
+  YASH_PS1="${usr}@${hst}${place}${sign}"
+  PS1R="${git}"
+}
+
+# This is needed for updating the prompt interactively
+PROMPT_COMMAND=update_prompt
+
+
+# Unset temporary variables
+unset hostcolor usercolor hostname
+
+# Color predictions as dim
+PS1P='\fi.'
+
+bindkey --vi-insert '\^L' clear-and-redraw-all
+bindkey --vi-insert '\^A' beginning-of-line
+bindkey --vi-insert '\^E' end-of-line
+
+set -o braceexpand
+set -o le-predict 
+
+# Prioritize {s,u}base tools (only enable after setting up everything, cuz pass and other utilities depend on gnu specific flags in mkdir,...)
+# export PATH="/usr/local/bin/:$PATH"
+
+[ "$-" != "${-#*i}" ] || return
+
+if [ ! "$1" = "profile" ]; then 
+	[ "$PATH" ] && POST=":$PATH"
+	PRE="/usr/lib/jvm/openjdk21/bin"
+	export PATH="${PRE}${POST}"
+fi
+
+APPIMAGE_EXTRACT_AND_RUN=1

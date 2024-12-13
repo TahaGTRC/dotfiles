@@ -1,0 +1,82 @@
+# Microphone controls
+super + alt + m
+	$SCRIPTS/microphone.sh toggle
+super + alt + ctrl + m
+	$SCRIPTS/microphone.sh increase
+super + alt + shift + m
+	$SCRIPTS/microphone.sh decrease
+
+
+# Volume controls
+XF86AudioMute
+	$SCRIPTS/volume.sh toggle
+XF86AudioRaiseVolume
+	$SCRIPTS/volume.sh increase
+XF86AudioLowerVolume
+	$SCRIPTS/volume.sh decrease
+super + alt + v
+	$SCRIPTS/volume.sh toggle
+super + alt + ctrl + v
+	$SCRIPTS/volume.sh increase
+super + alt + shift + v
+	$SCRIPTS/volume.sh decrease
+
+# Brightness controls
+XF86MonBrightnessUp
+	$SCRIPTS/brightness.sh increase
+
+XF86MonBrightnessDown
+	$SCRIPTS/brightness.sh decrease
+
+# Display toggle
+super + alt + d
+	$SCRIPTS/display.sh toggle
+super + alt + ctrl + d
+	$SCRIPTS/display.sh extend
+super + alt + shift + d
+	$SCRIPTS/display.sh mirror
+
+# Power actions
+super + alt + p
+	$SCRIPTS/power-actions.sh
+
+# Keyboard layout change
+super + alt + k
+	$SCRIPTS/change-keyboard.sh
+
+# Application shortcuts
+super + w
+	$BROWSER
+super + n
+	$SCRIPTS/gnu.sh -term $FM
+
+# Screenshot
+# Source functions.sh to access functions since cant run them in no interactive mode
+super + alt + s
+	$SHELL -c ". ~/.scripts/functions.sh; screenshot screen"
+super + alt + ctrl + s
+	$SHELL -c ". ~/.scripts/functions.sh; screenshot window"
+super + alt + shift + s
+	$SHELL -c ". ~/.scripts/functions.sh; screenshot area"
+
+# Application launcher
+super + alt + r
+	dmenu_run -i -fn "SF Mono-12" -l 20
+
+# Emoji picker
+super + alt + e
+	~/.scripts/emoji.sh
+
+super + alt + c
+	~/.scripts/snippet.sh
+
+
+# Password manager
+super + p
+	$SCRIPTS/gnu.sh ~/.scripts/pass.sh
+
+# Uncomment the following lines if you want to use these shortcuts
+# super + Return
+# super + t
+#
+#	alacritty

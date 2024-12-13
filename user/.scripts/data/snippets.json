@@ -1,0 +1,47 @@
+[
+  {
+    "language": "HTML",
+    "title": "HTML Document boilerplate",
+    "code": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Hello, World</title>\n    \n    <link rel=\"stylesheet\" href=\"styles.css\">\n</head>\n\n<body>\n</body>\n\n</html>"
+  },
+  {
+    "language": "Go",
+    "title": "Basic Program",
+    "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    fmt.Println(\"Hello, World!\")\n}"
+  },
+  {
+    "language": "Go",
+    "title": "Goroutine Example",
+    "code": "go func() {\n    fmt.Println(\"This runs in a goroutine\")\n}()"
+  },
+  {
+    "language": "Go",
+    "title": "Channel Example",
+    "code": "ch := make(chan string)\n\ngo func() {\n    ch <- \"Hello from channel\"\n}()\n\nmsg := <-ch\nfmt.Println(msg)"
+  },
+  {
+    "language": "Go",
+    "title": "Error Handling",
+    "code": "func divide(a, b int) (int, error) {\n    if b == 0 {\n        return 0, fmt.Errorf(\"cannot divide by zero\")\n    }\n    return a / b, nil\n}"
+  },
+  {
+    "language": "Go",
+    "title": "For Loop",
+    "code": "for i := 0; i < 10; i++ {\n    fmt.Println(i)\n}"
+  },
+  {
+    "language": "Go",
+    "title": "Switch Statement",
+    "code": "switch day := \"Monday\"; day {\ncase \"Monday\":\n    fmt.Println(\"Start of the week\")\ncase \"Friday\":\n    fmt.Println(\"End of the week\")\ndefault:\n    fmt.Println(\"Midweek\")\n}"
+  },
+  {
+    "language": "Go",
+    "title": "Slice Declaration and Iteration",
+    "code": "fruits := []string{\"apple\", \"banana\", \"cherry\"}\nfor _, fruit := range fruits {\n    fmt.Println(fruit)\n}"
+  },
+  {
+    "language": "Go",
+    "title": "Map Declaration and Access",
+    "code": "ages := map[string]int{\"Alice\": 25, \"Bob\": 30}\nfmt.Println(ages[\"Alice\"])"
+  }
+]

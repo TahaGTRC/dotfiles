@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=NSXIV
+Comment=Image Viewer
+Exec=nsxiv
+Terminal=true
+

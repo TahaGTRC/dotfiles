@@ -1,0 +1,6 @@
+set mpris=true
+# needs cmus-pulseaudio package
+set output_plugin=pulse
+set dsp.alsa.device=default
+set mixer.alsa.device=default
+set mixer.alsa.channel=Master
