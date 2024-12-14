@@ -33,6 +33,7 @@ GtkWidget *vbox;
 char *progname;
 bool verbose = false;
 bool fullpath = false;
+int padding = 10;
 int mode = 0;
 bool and_exit;
 bool keep;
@@ -422,6 +423,8 @@ int main (int argc, char **argv) {
             printf("  --keep,        -k  with --target, keep files to drag out\n");
             printf("  --print-path,  -p  with --target, print file paths"
                     " instead of URIs\n");
+            printf("  --no-padding,  -n  add no padding between the"
+                    " buttons and the border of the window.\n");
             printf("  --all,         -a  drag all files at once\n");
             printf("  --all-compact, -A  drag all files at once, only displaying"
                     " the number of files\n");
@@ -455,6 +458,9 @@ int main (int argc, char **argv) {
         } else if (strcmp(argv[i], "-p") == 0
                 || strcmp(argv[i], "--print-path") == 0) {
             print_path = true;
+        } else if (strcmp(argv[i], "-n") == 0
+                || strcmp(argv[i], "--no-padding") == 0) {
+            padding = 0;
         } else if (strcmp(argv[i], "-a") == 0
                 || strcmp(argv[i], "--all") == 0) {
             drag_all = true;
@@ -484,6 +490,8 @@ int main (int argc, char **argv) {
     gtk_init(&argc, &argv);
 
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+    gtk_container_set_border_width(GTK_CONTAINER(window), padding);
 
     closure = g_cclosure_new(G_CALLBACK(do_quit), NULL, NULL);
     accelgroup = gtk_accel_group_new();
