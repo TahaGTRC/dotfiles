@@ -175,23 +175,31 @@ fresh() {
 	i $(jq -r '[.user[], .base[]] | join(" ")' "$ppath")
 }
 
-xo() {
+xo() (
 	if [ -z "$1" ]; then
 		echo "Usage: xo command"
-	else
-		# If no command is provided, show usage
-		# Use `"$TERMINAL -e"` to open the terminal emulator and execute the command
-		# setting and resetting m to prevent job control messages (annoying)
-		(
-			set +m
-			setsid "$@" > /dev/null 2>&1 &
-		)
+		return 1
 	fi
-}
+
+	cmd="$1"
+
+	if type "$1" | grep -q "alias"; then
+		cmd=$(alias "$1" 2>/dev/null | awk -F"'" '{print $2}')
+	fi
+
+	shift
+
+	(
+		set +m
+		echo "$@" | xargs -I {} sh -c "setsid $cmd '{}' > /dev/null 2>&1 &"
+	)
+)
+
 
 fzyx() {
 	find . | fzy -p "$(stylize -f yellow -s bold "> ")"
 }
+
 
 fzyo() {
 	if [ $# -eq 0 ]; then
