@@ -24,5 +24,7 @@ export BRIGHTNESS_STATUS_FILE="$STATS_DIR/brightness"
 export MICROPHONE_STATUS_FILE="$STATS_DIR/mic"
 export REC_STATUS_FILE="$STATS_DIR/rec"
 
+export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+
 export VOLUME_SCRIPT="$SCRIPTS/volume.sh"
 export DISPLAY_SCRIPT="$SCRIPTS/display.sh"

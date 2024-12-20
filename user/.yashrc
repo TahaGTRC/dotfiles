@@ -1,6 +1,9 @@
 #!/usr/bin/env sh
 export LC_ALL=en_US.UTF-8
 
+# Needed by pipewire
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
+
  . "$HOME/.scripts/locations.sh"
  . "$HOME/.scripts/functions.sh"
  . "$HOME/.scripts/aliases.sh"
