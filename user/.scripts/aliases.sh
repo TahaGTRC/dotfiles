@@ -12,6 +12,8 @@ alias ll='ls -lAh'
 alias la='ls -A'
 alias l='ls -1F'
 alias less='less -R'
+alias mpvg='mpv --player-operation-mode=pseudo-gui --'
+
 
 # run in GNU env
 alias nnn='$SCRIPTS/gnu.sh nnn' # nnn depend on some specific flags that sbase doesn't have
