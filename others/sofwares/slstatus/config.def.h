@@ -78,7 +78,8 @@ static const struct arg args[] = {
 /*	{run_command, " 🔉 %s%%", "cat ~/.stats_files/audio"},*/
     {battery_perc, " | 🔋 %s%%", "CMB1"},
     {battery_state, " (%s)", "CMB1"},
-    {datetime, " | %s", "⏳ %H:%M | 📅 %a %d/%m/%y "},
+    {datetime, " | %s", "⏳ %H:%M | 📅 %a %d/%m "},
+    // {datetime, " | %s", "⏳ %H:%M | 📅 %a %d/%m/%y "},
     {keymap, "| 🌍 %s "},
     {wifi_essid, "| 🛜 %s", "wlp2s0"}
     // { datetime, " | %s", "⏳ %I:%M:%S 📅 %y/%m/%d" },
