@@ -362,3 +362,8 @@ guard() (
 		sleep 2
 	done
 )
+
+bluetooth() {
+	doas sv start bluetoothd
+	pulseaudio -k > /dev/null 2>&1 || true; pulseaudio --start > /dev/null 2>&1
+}
