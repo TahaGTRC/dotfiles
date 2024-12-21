@@ -34,4 +34,7 @@ alias si='xbps-query -s'  # Search installed
 alias li='xbps-query -l'  # list installed
 alias lei='xbps-query -m' # list explicitly installed
 
+# reset user lock
+alias resu='faillock --user $(whoami) --reset'
+
 # export ROVER_OPEN=". $SCRIPTS/functions.sh && xo xdg-open"

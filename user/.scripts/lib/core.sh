@@ -169,6 +169,7 @@ fresh() {
 		stylize -f red -s bold -n "Install jq first!"
 		return 1
 	fi
+
 	ppath="$OTHERS/packages.json"
 
 	# shellcheck disable=SC2046
@@ -195,57 +196,50 @@ xo() (
 	)
 )
 
-
 fzyx() {
 	find . | fzy -p "$(stylize -f yellow -s bold "> ")"
 }
-
 
 fzyo() {
 	if [ $# -eq 0 ]; then
 		opener="xdg-open"
 	else
 		opener="$1"
-		# Resolve aliases because xargs only accepts pure executables
-		if command -v "$opener" > /dev/null 2>&1; then
-			if alias "$opener" > /dev/null 2>&1; then
-				opener=$(alias "$opener" | sed "s/^.*='\(.*\)'$/\1/")
-			fi
+		# Resolve aliases
+		if alias "$opener" > /dev/null 2>&1; then
+			opener=$(alias "$1" 2>/dev/null | awk -F"'" '{print $2}')
 		fi
 		shift
 	fi
 
-	fzyx | xargs -I{} "$opener" {}
+	fzyx | xargs -I {} "$opener" {}
 }
 
-# Find which package provides a certain bin
+# Find which package provides a certain - local - bin/command
 wpkg() {
 	command="$1"
 	path=$(which "$command")
 	result=$(xbps-query -o "$path")
 	echo "$result"
+	unset path command result
 }
 
-# reset user lock
-resu() {
-	faillock --user "$(whoami)" --reset
-}
-
-# The issue here is that the command substitution $(whoami) will be executed when the alias is defined, not when it's used. This means the alias will always use the username of the user who defined the alias, not necessarily the current user when the alias is invoked.
-#alias resu='faillock --user $(whoami) --reset'
-
+# Make all directory tree and create a file
 touchie() {
 	mkdir -p "$(dirname "$1")" && touch "$1"
 }
 
+# Copy file content to clipboard
 cpf() {
 	[ -r "$1" ] && xclip -selection clipboard < "$1"
 }
 
 preview_colors() {
 	c=0
+	message="You, sir, are a fish!"
 	while [ "$c" -lt 256 ]; do
-		printf "%s: \033[0;38;5;%smYou, sir, are a fish!\033[0m\n" "$c" "$c"
+		printf "%s: \033[0;38;5;%sm%s\033[0m\n" "$c" "$c" "$message"
 		c=$((c + 1))
 	done
+	unset c message
 }
