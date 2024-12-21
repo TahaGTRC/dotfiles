@@ -32,7 +32,7 @@ GtkWidget *vbox;
 
 char *progname;
 bool verbose = false;
-bool fullpath = false;
+bool shortpath = false;
 int padding = 10;
 int mode = 0;
 bool and_exit;
@@ -193,10 +193,10 @@ void left_align_button(GtkButton *button) {
 void add_file_button(GFile *file) {
     char *filename;
 
-    if (fullpath) {
-        filename = g_file_get_path(file);
-    } else {
+    if (shortpath) {
         filename = g_file_get_basename(file);
+    } else {
+        filename = g_file_get_path(file);
     }
 
     if(!g_file_query_exists(file, NULL)) {
@@ -428,8 +428,8 @@ int main (int argc, char **argv) {
             printf("  --all,         -a  drag all files at once\n");
             printf("  --all-compact, -A  drag all files at once, only displaying"
                     " the number of files\n");
-            printf("  --full-path,   -F  display the full path instead of just"
-                    " the basename in the list.\n");
+            printf("  --basename,   -B display the basename instead of"
+                    " the whole path in the list.\n");
             printf("  --on-top,      -T  make window always-on-top\n");
             printf("  --stdin,       -I  read input from stdin\n");
             printf("  --verbose,     -v  be verbose\n");
@@ -468,9 +468,9 @@ int main (int argc, char **argv) {
                 || strcmp(argv[i], "--all-compact") == 0) {
             drag_all = true;
             all_compact = true;
-        } else if (strcmp(argv[i], "-F") == 0
-                || strcmp(argv[i], "--full-path") == 0) {
-            fullpath = true;
+        } else if (strcmp(argv[i], "-B") == 0
+                || strcmp(argv[i], "--basename") == 0) {
+            shortpath = true;
         } else if (strcmp(argv[i], "-T") == 0
                 || strcmp(argv[i], "--on-top") == 0) {
             always_on_top = true;
