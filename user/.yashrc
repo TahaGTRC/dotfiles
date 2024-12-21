@@ -2,7 +2,8 @@
 export LC_ALL=en_US.UTF-8
 
 # Needed by pipewire
-export XDG_RUNTIME_DIR=/run/user/$(id -u)
+XDG_RUNTIME_DIR="/run/user/$(id -u)"
+export XDG_RUNTIME_DIR
 
  . "$HOME/.scripts/locations.sh"
  . "$HOME/.scripts/functions.sh"
@@ -10,27 +11,11 @@ export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 setxkbmap fr
 
-hostname=$(uname -n)
-
-<<C
+true <<C
 I linked /usr/local/bin/vi to /bin/vis
 because vi is hard-coded in Yash's
 command-line editor function (cmd_vi_edit_and_accept)
 C
-
-# Determine hostname color based on connection type and environment
-if [ -n "${SSH_CONNECTION-}" ]; then
-  hostcolor='\fw.'     # yellow hostname for SSH remote
-else
-  hostcolor='\fy.'     # green hostname for local
-fi
-
-# Determine user color based on user privileges
-if [ "$(id -u)" -eq 0 ]; then
-  usercolor='\fr.'     # red username for root
-else
-  usercolor='\fg.' # same username color as hostname for non-root user
-fi
 
 # Function to retrieve the current git branch
 git_branch() {
@@ -47,29 +32,24 @@ update_prompt() {
   place="$(stylize -f 222 -p "$(echo "$PWD" | sed "s|$HOME|~|") ")"
   git="$(stylize -f 14 -s bold -p "$(git_branch)")"
   sign="$(stylize -f 2 -p "$ ")"
-  YASH_PS1="${usr}@${hst}${place}${sign}"
-  PS1R="${git}"
+  export YASH_PS1="${usr}@${hst}${place}${sign}"
+  export PS1R="${git}"
 }
 
 # This is needed for updating the prompt interactively
 PROMPT_COMMAND=update_prompt
 
-
-# Unset temporary variables
-unset hostcolor usercolor hostname
-
 # Color predictions as dim
-PS1P='\fi.'
+export PS1P='\fi.'
 
 bindkey --vi-insert '\^L' clear-and-redraw-all
 bindkey --vi-insert '\^A' beginning-of-line
 bindkey --vi-insert '\^E' end-of-line
 
+# shellcheck disable=SC3040
 set -o braceexpand
+# shellcheck disable=SC3040
 set -o le-predict 
-
-# Prioritize {s,u}base tools (only enable after setting up everything, cuz pass and other utilities depend on gnu specific flags in mkdir,...)
-# export PATH="/usr/local/bin/:$PATH"
 
 [ "$-" != "${-#*i}" ] || return
 
@@ -79,4 +59,4 @@ if [ ! "$1" = "profile" ]; then
 	export PATH="${PRE}${POST}"
 fi
 
-APPIMAGE_EXTRACT_AND_RUN=1
+export APPIMAGE_EXTRACT_AND_RUN=1
