@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
-# had SC2155 before
 WALLPAPER=$(find "$HOME/Pictures/Wallpapers" -type f | shuf | head -1)
 export WALLPAPER
 
@@ -16,7 +15,6 @@ export BACKUP="$OTHERS/backups"
 export SCRIPTS="$HOME/.scripts"
 
 export STATS_DIR="$HOME/.stats"
-export LOGFILE="$HOME/.stats/log"
 export LANG_STATUS_FILE="$STATS_DIR/lang"
 export DISPLAY_STATUS_FILE="$STATS_DIR/display"
 export VOLUME_STATUS_FILE="$STATS_DIR/audio"
@@ -24,7 +22,8 @@ export BRIGHTNESS_STATUS_FILE="$STATS_DIR/brightness"
 export MICROPHONE_STATUS_FILE="$STATS_DIR/mic"
 export REC_STATUS_FILE="$STATS_DIR/rec"
 
-export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+XDG_RUNTIME_DIR="/run/user/$(id -u)"
+export XDG_RUNTIME_DIR
 
 export VOLUME_SCRIPT="$SCRIPTS/volume.sh"
 export DISPLAY_SCRIPT="$SCRIPTS/display.sh"

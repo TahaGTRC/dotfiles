@@ -1,8 +1,5 @@
 #!/usr/bin/env sh
 
-# Considering alsa later
-# amixer -D hw:0 set "Master" 50%
-
 . "$SCRIPTS/functions.sh"
 
 no_notif="$2"

@@ -4,7 +4,9 @@
 temp_file=$(mktemp)
 passes=$(ls ~/.password-store/)
 
-# One level nesting is currently supported
+# Only one nesting level is currently supported
+# but can there be more?
+# like gmail/somesubservice/mycool@mail.com? 🤔
 for dir in $passes; do
 	direct="$HOME/.password-store/$dir"
 	elements=$(ls "$direct/")
@@ -20,6 +22,7 @@ menu_height="12"
 
 set -- -i -fn "$menu_font-$menu_font_size" -l "$menu_height" -c
 target=$(dmenu "$@" < "$temp_file")
+rm "$temp_file"
 
 if [ -n "$target" ]; then
 	pass show -c "$target"

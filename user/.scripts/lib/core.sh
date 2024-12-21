@@ -158,7 +158,7 @@ notify() {
 
 	# Wait for the process to terminate
 	while pgrep -x "herbe" > /dev/null; do
-		sleep 0.1
+		"$SCRIPTS/gnu.sh" sleep 0.1
 	done
 
 	herbe "$1"

@@ -14,7 +14,6 @@ alias l='ls -1F'
 alias less='less -R'
 alias mpvg='mpv --player-operation-mode=pseudo-gui --'
 
-
 # run in GNU env
 alias nnn='$SCRIPTS/gnu.sh nnn' # nnn depend on some specific flags that sbase doesn't have
 alias pass='$SCRIPTS/gnu.sh pass'
@@ -35,5 +34,4 @@ alias si='xbps-query -s'  # Search installed
 alias li='xbps-query -l'  # list installed
 alias lei='xbps-query -m' # list explicitly installed
 
-# Source functions to use xo
-export ROVER_OPEN=". $SCRIPTS/functions.sh && xo xdg-open"
+# export ROVER_OPEN=". $SCRIPTS/functions.sh && xo xdg-open"

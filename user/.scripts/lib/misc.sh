@@ -70,8 +70,8 @@ compress() {
 		esac
 	fi
 
-	# shellcheck disable=SC2086
 	stylize -f white -s italic "Compressing ⌛..."
+	# shellcheck disable=SC2086
 	find $inputs | cpio -o | xz -kf - $compression_flags > "${archive}.${tape}.${compressor}"
 }
 
@@ -359,7 +359,7 @@ guard() (
 			doas poweroff && cleanup
 		fi
 
-		sleep 2
+		"$SCRIPTS/gnu.sh" sleep 0.5
 	done
 )
 

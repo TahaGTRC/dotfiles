@@ -1,6 +1,9 @@
 #!/usr/bin/env sh
 
-# A lil script to run some command w GNU utils instead of sbase (comp issues)
+# A script to execute a command/script using GNU's base commands
+# instead of sbase, since some utilities/tools depend on some
+# specific flags only existing in GNU's variant
+
 [ "$PATH" ] && ORIGINAL=":$PATH"
 GNU="/bin:/usr/bin"
 export PATH="${GNU}${ORIGINAL}"

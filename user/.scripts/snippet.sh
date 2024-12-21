@@ -13,7 +13,6 @@ chosen=$(echo "$data" | dmenu "$@")
 if [ -n "$chosen" ]; then
 	# Extract the index of the chosen item
 	index=$(echo "$data" | grep -nF "$chosen" | cut -d: -f1)
-	# Get the corresponding value from the JSON file
 	value=$(jq -r ".[$((index - 1))].code" "$j_file")
 	printf "%s" "$value" | xclip -selection clipboard
 else
