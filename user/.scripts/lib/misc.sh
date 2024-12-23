@@ -114,13 +114,15 @@ record() {
 # and webcam record too
 #        -f v4l2 -i /dev/video0 \
 #        -f pulse -ac 1 -i default \
-	if [ "$(xrandr --listactivemonitors | grep '[0-9]:' | wc -l)" -ne 1 ]; then
+	monitors="$(xrandr --listactivemonitors)"
+
+	if [ "$(echo "$monitors" | grep '[0-9]:' | wc -l)" -ne 1 ]; then
 		stylize -f red -s bold -n "Only one active monitor is supported"
 		return 0
 	fi
 
 	screen="$DISPLAY"     # -s
-	resolution="1366x768" # -r
+	resolution="$(echo $monitors | awk -F'[ /x]' '{print $5 "x" $7}')" # -r
 	v_enc="libvpx"        # -v
 	a_enc="libvorbis"     # -a
 	format="webm"         # -e (mustn't be infered from v_enc?)
