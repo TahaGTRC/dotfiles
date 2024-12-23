@@ -102,6 +102,7 @@ stylize() (
 				;;
 		esac
 	done
+
 	shift $((OPTIND - 1))
 	text="$1"
 

@@ -109,7 +109,17 @@ decompress() {
 }
 
 record() {
-	screen=0              # -s
+
+# Rewrite later, to clean more, and add support for mic/sys audio choice
+# and webcam record too
+#        -f v4l2 -i /dev/video0 \
+#        -f pulse -ac 1 -i default \
+	if [ "$(xrandr --listactivemonitors | grep '[0-9]:' | wc -l)" -ne 1 ]; then
+		stylize -f red -s bold -n "Only one active monitor is supported"
+		return 0
+	fi
+
+	screen="$DISPLAY"     # -s
 	resolution="1366x768" # -r
 	v_enc="libvpx"        # -v
 	a_enc="libvorbis"     # -a
@@ -117,7 +127,7 @@ record() {
 	frames=60             # -f
 	bitrate="2M"          # -b
 	verbosity="error"
-
+	aformat="pulse" # or alsa
 	a_encodes="aac|mp3|libmp3lame|opus|libopus|flac|vorbis|libvorbis|eac3|ac3|alac|wavpack"
 	v_encodes="libx264|libx265|libvpx|libvpx-vp9|h264_qsv|hevc_qsv|av1_qsv|av1_nvenc|h264_nvenc|hevc_nvenc|mpeg4|libxvid|h264_amf|hevc_amf|av1_amf|gif"
 	v_formats="mp4|mkv|avi|mov|flv|wmv|webm|mpeg|ts|m4v|gif|3gp"
@@ -145,9 +155,9 @@ record() {
 			-s=*)
 				# 0.0+1366,0
 				scrn="${1#*=}"
-				if [ -n "$(echo "$scrn" | tr -d '0123456789.,+')" ]; then
+				if [ -n "$(echo "$scrn" | tr -d '0123456789:.,+')" ]; then
 					echo "Unknown value passed: -s=<$scrn>"
-					echo "Possible values: 0|0.0+1366,0..."
+					echo "Possible values: :0|:0.0+1366,0..."
 					return 1
 				fi
 				screen="$scrn"
