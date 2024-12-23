@@ -240,17 +240,16 @@ record() {
 	printf "\t * FPS: %s\n" "$frames"
 	printf "\t * Format: %s\n" "$format"
 
+	 # add choice between system and mic (-ac 1 -i [opt], option obtained w 'pactl list short sources')
 	ffmpeg -framerate "$frames" \
 		-video_size "$resolution" \
-		-f x11grab -i :"$screen" \
-		-f alsa -ac 1 -i default \
+		-f x11grab -i "$screen" \
+		-f "$aformat" -ac 1 -i default \
 		-c:v "$v_enc" \
 		-b:v "$bitrate" \
 		-c:a "$a_enc" \
 		"$output_dir/$now.$format" \
 		-loglevel "$verbosity"
-	# ffmpeg puts logs in stderr
-	# > /dev/null 2>&$((verbosity == 2 ? 1 : 2))
 
 	# Cleanup lock file when ffmpeg completes normally
 	cleanup
