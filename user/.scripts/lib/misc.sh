@@ -110,6 +110,17 @@ decompress() {
 
 record() {
 
+	lock="/tmp/record.process"
+
+	cleanup() {
+		rm -f "$lock"
+		# silly workaround by using invisible char in slstatus
+		echo "​" > "$REC_STATUS_FILE"
+		return
+	}
+
+	trap cleanup INT EXIT
+
 # Rewrite later, to clean more, and add support for mic/sys audio choice
 # and webcam record too
 #        -f v4l2 -i /dev/video0 \
@@ -204,6 +215,10 @@ record() {
 				verbosity=1
 				verbosity="info"
 				;;
+			--cleanup)
+				cleanup
+				return 0
+				;;
 			*)
 				echo "Unknown parameter passed: <$1>"
 				return 1
@@ -212,21 +227,15 @@ record() {
 		shift
 	done
 
-	# add audio choices (sys audio/mic....)
-	lock="/tmp/record.process"
-	[ -e "$lock" ] && echo "Check existing recording process" && return 1
-	# Using this in slstatus
+	# add audio choices later (sys audio/mic....)
+
+	[ -e "$lock" ] && \
+		echo "Check existing recording process (or run: record --cleanup)" && \
+		return 1
+
+	touch "$lock"
 	echo " REC 🔴 |" > "$REC_STATUS_FILE"
 
-	cleanup() {
-		rm -f "$lock"
-		# silly workaround by using invisible char in slstatus
-		echo "​" > "$REC_STATUS_FILE"
-		echo "Lock file removed."
-		return
-	}
-
-	trap cleanup INT EXIT
 
 	output_dir="$HOME/Videos/Recordings"
 	mkdir -p "$output_dir"
