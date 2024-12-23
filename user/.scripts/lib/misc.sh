@@ -255,21 +255,22 @@ record() {
 	cleanup
 }
 
-screenshot() {
-	mkdir -p "$HOME/Pictures"
-	FILENAME="$HOME/Pictures/$(date +%Y-%m-%d_%H-%M-%S).png"
+screenshot() (
+	placement="$HOME/Pictures/Screenshots"
+	mkdir -p "$placement"
+
 	case "$1" in
 		window)
-			FILENAME="$HOME/Pictures/$(date +%Y-%m-%d_%H-%M-%S)_focused_window.png"
+			FILENAME="$placement/$(date +%Y-%m-%d_%H-%M-%S)_focused_window.png"
 			WINDOW_ID=$(xprop -root _NET_ACTIVE_WINDOW | awk '{print $NF}')
 			import -window "$WINDOW_ID" "$FILENAME"
 			;;
 		screen)
-			FILENAME="$HOME/Pictures/$(date +%Y-%m-%d_%H-%M-%S).png"
+			FILENAME="$placement/$(date +%Y-%m-%d_%H-%M-%S).png"
 			import -window root "$FILENAME"
 			;;
 		area)
-			FILENAME="$HOME/Pictures/$(date +%Y-%m-%d_%H-%M-%S)_area.png"
+			FILENAME="$placement/$(date +%Y-%m-%d_%H-%M-%S)_area.png"
 			import "$FILENAME"
 			;;
 		*)
@@ -300,8 +301,7 @@ screenshot() {
 				;;
 		esac
 	fi
-
-}
+)
 
 set_wallpaper() {
 	if [ -z "$1" ]; then
