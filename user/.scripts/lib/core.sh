@@ -208,7 +208,7 @@ fzyx() {
 		path="$1"
 	fi
 
-	find "$path" | fzy -p "$(stylize -f yellow -s bold "> ")"
+	find "$path" | sed "s|^${path}||" | fzy -p "$(stylize -f yellow -s bold "> ")"
 
 	unset path
 }
