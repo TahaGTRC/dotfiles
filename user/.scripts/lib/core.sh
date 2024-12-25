@@ -185,8 +185,8 @@ xo() (
 
 	cmd="$1"
 
-	if type "$1" | grep -q "alias"; then
-		cmd=$(alias "$1" 2>/dev/null | awk -F"'" '{print $2}')
+	if type "$cmd" | grep -q "alias"; then
+		cmd=$(alias "$cmd" 2>/dev/null | awk -F"'" '{print $2}')
 	fi
 
 	shift
@@ -196,11 +196,15 @@ xo() (
 		if [ "$#" -eq 0 ] && [ -x "$(which $cmd)" ]; then
 			setsid "$cmd" > /dev/null 2>&1 &
 		else
-			echo "$@" | xargs -I {} sh -c "setsid $cmd '{}' > /dev/null 2>&1 &"
+			# BUG: sbase's xargs cant handle long paths
+			echo "$@" | "$SCRIPTS/gnu.sh" xargs -I {} sh -c "setsid $cmd '{}' > /dev/null 2>&1 &"
 		fi
 	)
 )
 
+# fzyx [dir]
+# uses fzy to discover the content of the current
+# - or provided - directory
 fzyx() {
 	path="."
 
@@ -208,30 +212,14 @@ fzyx() {
 		path="$1"
 	fi
 
-	find "$path" | sed "s|^${path}||" | fzy -p "$(stylize -f yellow -s bold "> ")"
+	selected=$(find "$path" | sed "s|^${path}||" | fzy -p "$(stylize -f yellow -s bold '> ')")
 
-	unset path
-}
-
-fzyo() {
-	path="."
-
-	if [ -n "$1" ]; then
-		path="$1"
-	fi
-	
-	if [ $# -eq 0 ]; then
-		opener="xdg-open"
-	else
-		opener="$1"
-		# Resolve aliases
-		if alias "$opener" > /dev/null 2>&1; then
-			opener=$(alias "$1" 2>/dev/null | awk -F"'" '{print $2}')
-		fi
-		shift
+	if [ -n "$selected" ]; then
+		full_path="${path}${selected}"
+		echo "$full_path"
 	fi
 
-	fzyx "$path" | xargs -I {} "$opener" {}
+	unset path full_path selected
 }
 
 # Find which package provides a certain - local - bin/command
