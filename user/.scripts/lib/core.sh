@@ -193,7 +193,7 @@ xo() (
 
 	(
 		set +m
-		if [ "$#" -eq 0 ] && [ -x "$cmd" ]; then
+		if [ "$#" -eq 0 ] && [ -x "$(which $cmd)" ]; then
 			setsid "$cmd" > /dev/null 2>&1 &
 		else
 			echo "$@" | xargs -I {} sh -c "setsid $cmd '{}' > /dev/null 2>&1 &"
