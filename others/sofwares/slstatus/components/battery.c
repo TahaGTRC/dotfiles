@@ -42,9 +42,17 @@
 		char path[PATH_MAX];
 
 		if (esnprintf(path, sizeof(path), POWER_SUPPLY_CAPACITY, bat) < 0)
-			return NULL;
+			/* No battery present
+			Maybe i should find another
+			way to implement this, since
+			it may conflict with some perm
+			based error handling when creating
+			the perc file in the specified path (same for battery_state)
+			*/
+			return "-1";
 		if (pscanf(path, "%d", &cap_perc) != 1)
-			return NULL;
+			return "-1";
+//			return NULL;
 
 		return bprintf("%d", cap_perc);
 	}
@@ -65,9 +73,9 @@
 		char path[PATH_MAX], state[12];
 
 		if (esnprintf(path, sizeof(path), POWER_SUPPLY_STATUS, bat) < 0)
-			return NULL;
+			return "x";
 		if (pscanf(path, "%12[a-zA-Z ]", state) != 1)
-			return NULL;
+			return "x";
 
 		for (i = 0; i < LEN(map); i++)
 			if (!strcmp(map[i].state, state))
