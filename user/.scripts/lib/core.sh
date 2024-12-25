@@ -193,15 +193,33 @@ xo() (
 
 	(
 		set +m
-		echo "$@" | xargs -I {} sh -c "setsid $cmd '{}' > /dev/null 2>&1 &"
+		if [ "$#" -eq 0 ] && [ -x "$cmd" ]; then
+			setsid "$cmd" > /dev/null 2>&1 &
+		else
+			echo "$@" | xargs -I {} sh -c "setsid $cmd '{}' > /dev/null 2>&1 &"
+		fi
 	)
 )
 
 fzyx() {
-	find . | fzy -p "$(stylize -f yellow -s bold "> ")"
+	path="."
+
+	if [ -n "$1" ]; then
+		path="$1"
+	fi
+
+	find "$path" | fzy -p "$(stylize -f yellow -s bold "> ")"
+
+	unset path
 }
 
 fzyo() {
+	path="."
+
+	if [ -n "$1" ]; then
+		path="$1"
+	fi
+	
 	if [ $# -eq 0 ]; then
 		opener="xdg-open"
 	else
@@ -213,7 +231,7 @@ fzyo() {
 		shift
 	fi
 
-	fzyx | xargs -I {} "$opener" {}
+	fzyx "$path" | xargs -I {} "$opener" {}
 }
 
 # Find which package provides a certain - local - bin/command
