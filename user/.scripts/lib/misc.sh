@@ -383,7 +383,28 @@ guard() (
 	done
 )
 
-bluetooth() {
+start_bluetooth() {
 	doas sv start bluetoothd
 	pulseaudio -k > /dev/null 2>&1 || true; pulseaudio --start > /dev/null 2>&1
 }
+
+switch_network() (
+	networks="$(wpa_cli list_networks)"
+	networks=$(echo "$networks" | sed '1,2d' | sed -E 's/([0-9]+)\s+([a-zA-Z0-9_-]*).*/\1 -> \2/')
+
+	menu_font="SF Mono"
+	menu_font_size="14.5"
+	menu_height="12"
+
+	set -- -i -fn "$menu_font-$menu_font_size" -l "$menu_height" -c
+
+	selected="$(echo "$networks" | dmenu "$@")"
+
+	# I've never seen an SSID with '+', so I'm using it as delimiter 😎
+	networks="$(echo "$networks" | tr '\n' '+')"
+
+	if array_includes '+' "$selected" "$networks"; then
+		id=$(echo "$selected" | sed -E 's/ ->.*//')
+		wpa_cli select_network "$id"
+	fi
+)

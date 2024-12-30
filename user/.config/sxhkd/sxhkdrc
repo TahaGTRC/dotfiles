@@ -69,6 +69,10 @@ super + alt + e
 super + alt + c
 	$SCRIPTS/snippet.sh
 
+# Switch network
+super + alt + w
+	$SHELL -c ". $SCRIPTS/functions.sh; switch_network"
+
 # Password manager
 super + p
 	$SCRIPTS/gnu.sh $SCRIPTS/pass.sh
