@@ -32,7 +32,7 @@ alias s='xbps-query -Rs'         # Search
 alias sr='xbps-query --regex -Rs'
 alias si='xbps-query -s'  # Search installed
 alias li='xbps-query -l'  # list installed
-alias lei='xbps-query -m' # list explicitly installed
+alias lei='xbps-query -m | sed -E "s/\-[0-9]+(\.|_).+//"' # list explicitly installed + sed to remove ver info
 
 # reset user lock
 alias resu='faillock --user $(whoami) --reset'
