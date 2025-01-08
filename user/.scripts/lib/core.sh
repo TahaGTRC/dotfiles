@@ -4,11 +4,19 @@
 
 # Remove all - including hidden - files/folders
 rma() (
-	[ -n "$1" ] && [ "$1" != "--hidden" ] \
+	[ -n "$1" ] && [ "$1" != "--hidden" ] && [ "$1" != "--in-hidden" ] \
 		&& stylize -f 159 -s italic -n "Place yourself into the folder you want to delete its content!" \
 		&& return 1
 
-	[ "$1" = "--hidden" ] && spec=" *HIDDEN*"
+	h_flag=""
+
+	if [ "$1" = "--hidden" ]; then
+		spec=" *HIDDEN*"
+		h_flag="h"
+	elif [ "$1" = "--in-hidden" ]; then
+		spec=" *HIDDEN FILES (CURRENT & SUBDIRS)*"
+		h_flag="ih"
+	fi
 
 	confirm="n"
 	stylize -f 11 -s bold "THIS WILL REMOVE ALL$spec FILES IN: "
@@ -22,8 +30,10 @@ rma() (
 			;;
 	esac
 
-	if [ -n "$spec" ]; then
+	if [ "$h_flag" = "ih" ]; then
 		find "." -depth -name ".*" ! -name "." ! -name ".." -exec rm -rf {} \;
+	elif [ "$h_flag" = "h" ]; then
+		ls -a | grep -v "^\.\{1,2\}$" | grep "^\." | xargs rm -rf
 	else
 		find "." -depth ! -name "." ! -name ".." -exec rm -rf {} \;
 	fi
