@@ -69,9 +69,9 @@ super + alt + e
 super + alt + c
 	$SCRIPTS/snippet.sh
 
-# Switch network
+# Switch network (need to run w/ st, since I got whiptail in the script)
 super + alt + w
-	$SHELL -c ". $SCRIPTS/functions.sh; switch_network"
+	"$TERMINAL" -e $SCRIPTS/network.sh
 
 # Password manager
 super + p
