@@ -322,7 +322,7 @@ set_wallpaper() {
 		wallpaper="$1"
 	fi
 
-	xwallpaper --maximize "$wallpaper"
+	xwallpaper --zoom "$wallpaper"
 }
 
 backup() {
