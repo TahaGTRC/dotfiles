@@ -1,5 +1,4 @@
 # Get the aliases and functions
-export XDG_RUNTIME_DIR=/run/user/$(id -u)
 [ -f $HOME/.yashrc ] && . $HOME/.yashrc "profile"
 setxkbmap fr
 startx &
