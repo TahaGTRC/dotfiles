@@ -1,6 +1,16 @@
 -- load standard vis module, providing parts of the Lua API
 require('vis')
 
+local highlight = require('highlight-comment')
+highlight.keywords = {
+	NOCOMMIT  = 'fore:cyan,underlined,bold,blink',
+	FIXME     = 'fore:red,underlined,bold',
+	NOTE      = 'fore:green,underlined,bold',
+	TODO      = 'fore:magenta,underlined,bold',
+	IMPORTANT = 'fore:yellow,underlined,bold',
+}
+
+
 vis.events.subscribe(vis.events.INIT, function()
 	-- Your global configuration options
 	-- vis:command('set number')
