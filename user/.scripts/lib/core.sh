@@ -3,6 +3,12 @@
 . "$SCRIPTS/aliases.sh"
 
 # Remove all - including hidden - files/folders
+: '
+I wrote this after I ended up
+nuking my entire home directory
+while trying to remove all cursed
+dotfiles of a dir, globbing gone wrong ig lol
+'
 rma() (
 	[ -n "$1" ] && [ "$1" != "--hidden" ] && [ "$1" != "--in-hidden" ] \
 		&& stylize -f 159 -s italic -n "Place yourself into the folder you want to delete its content!" \
@@ -33,6 +39,7 @@ rma() (
 	if [ "$h_flag" = "ih" ]; then
 		find "." -depth -name ".*" ! -name "." ! -name ".." -exec rm -rf {} \;
 	elif [ "$h_flag" = "h" ]; then
+		# shellcheck disable=SC2010
 		ls -a | grep -v "^\.\{1,2\}$" | grep "^\." | xargs rm -rf
 	else
 		find "." -depth ! -name "." ! -name ".." -exec rm -rf {} \;
@@ -203,7 +210,7 @@ xo() (
 
 	(
 		set +m
-		if [ "$#" -eq 0 ] && [ -x "$(which $cmd)" ]; then
+		if [ "$#" -eq 0 ] && [ -x "$(which "$cmd")" ]; then
 			setsid "$cmd" > /dev/null 2>&1 &
 		else
 			# BUG: sbase's xargs cant handle long paths
