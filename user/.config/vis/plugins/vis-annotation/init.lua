@@ -56,7 +56,7 @@ local wrap_lexer = function(win)
 			table.insert(vlexer._TAGS, tag)
 			tid = #vlexer._TAGS
 			vlexer._TAGS[tag] = tid
-			assert(tid < win.STYLE_LEXER_MAX, tid..'+'..win.STYLE_LEXER_MAX)
+			assert(tid < win.STYLE_LEXER_MAX)
 		end
 		win:style_define(tid, style)
 	end

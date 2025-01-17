@@ -32,7 +32,7 @@ known_networks="$(echo "$known_networks" | awk 'NR>4 {print $1}')"
 if echo "$known_networks" | grep -q "^$network$" ; then
     iwctl station "$station" connect "$network"
 else
-    pass=$(dialog --passwordbox "Enter <$network> password:" 8 39 --title "Network auth" 3>&1 1>&2 2>&3)
+    pass=$(dialog --title "Network auth" --passwordbox "Enter <$network> password:" 8 39 3>&1 1>&2 2>&3)
     iwctl --passphrase "$pass" station "$station" connect "$network"    
 fi
 
