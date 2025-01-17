@@ -1,7 +1,8 @@
 -- load standard vis module, providing parts of the Lua API
 require('vis')
 
-local highlight = require('highlight-comment')
+local highlight = require('plugins/vis-annotation/init')
+
 highlight.keywords = {
     NOCOMMIT  = 'fore:cyan,underlined,bold,blink',
     FIXME     = 'fore:red,underlined,bold',

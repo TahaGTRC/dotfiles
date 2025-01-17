@@ -24,7 +24,6 @@ local get_keywords = function(win, range_or_text)
 	if type(range_or_text) == 'table' then
 		txt = win.file:content(range_or_text)
 	end
-
 	local kws = lpeg_pattern:match(txt)
 	if not kws then return end
 
@@ -57,7 +56,7 @@ local wrap_lexer = function(win)
 			table.insert(vlexer._TAGS, tag)
 			tid = #vlexer._TAGS
 			vlexer._TAGS[tag] = tid
-			assert(tid < win.STYLE_LEXER_MAX)
+			assert(tid < win.STYLE_LEXER_MAX, tid..'+'..win.STYLE_LEXER_MAX)
 		end
 		win:style_define(tid, style)
 	end
@@ -94,9 +93,30 @@ local wrap_lexer = function(win)
 					table.insert(new_tokens, token_type)
 					table.insert(new_tokens, kws)
 				end
-				table.insert(new_tokens, kwp[3])
+				if token_type ~= 'comment' then
+					table.insert(new_tokens, token_type)
+				else
+					-- NOTE: annotations may be preceded by a letter (e.g., eTODO).
+					-- The following lines check if the keyword is adjacent to a letter
+					-- or symbol, ensuring it’s not part of a larger word.
+					-- so that it'll be recognized as a normal comment rather than annotation
+					-- This can slow down processing; if this behavior isn't desired
+					-- remove the following lines and the condition to directly insert 
+					-- kwp[3] into the table.
+
+					local pre_c = data:sub(kws - 1, kws - 1)
+					local post_c = data:sub(kwe + 1, kwe + 1)
+					local range = lpeg.S("éçàè_") + lpeg.locale().alnum -- lpeg.utfR can be used as well
+					local valid = not lpeg.match(range, pre_c) and not lpeg.match(range, post_c) 
+					if valid then
+						table.insert(new_tokens, kwp[3])
+					else
+						table.insert(new_tokens, token_type)
+					end
+				end
 				if token_end < kwe then
-					table.insert(new_tokens, token_end + 1)
+					-- NOTE: shouldn't it be token_end + 1?
+					table.insert(new_tokens, token_end)
 					i = i + 2
 				else
 					table.insert(new_tokens, kwe + 1)

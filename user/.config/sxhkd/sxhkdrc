@@ -70,7 +70,7 @@ super + alt + c
 	$SCRIPTS/snippet.sh
 
 # Switch network (need to run w/ st, since I got whiptail in the script)
-super + alt + w
+super + alt + n
 	"$TERMINAL" -e $SCRIPTS/network.sh
 
 # Password manager
